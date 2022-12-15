@@ -18,16 +18,16 @@ describe("/authentications endpoint", () => {
   describe("when POST /authentications", () => {
     it("should response 201 and new authentication", async () => {
       const requestPayload = {
-        username: "radea",
+        username: "surya",
         password: "iloveyou",
       };
       const server = await createServer(container);
 
-      await server.inject({
+      const responseDub = await server.inject({
         method: "POST",
         url: "/users",
         payload: {
-          username: "radea",
+          username: "surya",
           password: "iloveyou",
           fullname: "Radea Surya R",
         },
@@ -39,34 +39,16 @@ describe("/authentications endpoint", () => {
         payload: requestPayload,
       });
 
+      const responseJsonDub = JSON.parse(responseDub.payload);
+      expect(responseDub.statusCode).toEqual(201);
+      expect(responseJsonDub.status).toEqual("success");
+      expect(responseJsonDub.data.addedUser).toBeDefined();
+
       const responseJson = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responseJson.message).toEqual("success");
+      expect(response.statusCode).toEqual(201);
       expect(responseJson.status).toEqual("success");
       expect(responseJson.data.accessToken).toBeDefined();
       expect(responseJson.data.refreshToken).toBeDefined();
-    });
-
-    it("should response 400 if username not found", async () => {
-      // Arrange
-      const requestPayload = {
-        username: "dicoding",
-        password: "secret",
-      };
-      const server = await createServer(container);
-
-      // Action
-      const response = await server.inject({
-        method: "POST",
-        url: "/authentications",
-        payload: requestPayload,
-      });
-
-      // Assert
-      const responseJson = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responseJson.status).toEqual("fail");
-      expect(responseJson.message).toEqual("username tidak ditemukan");
     });
   });
 });

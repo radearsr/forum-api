@@ -1,6 +1,6 @@
 const AddUserUseCase = require("../../../../Applications/use_case/AddUserUseCase");
 
-class UserHandler {
+class UsersHandler {
   constructor(container) {
     this._container = container;
 
@@ -17,10 +17,9 @@ class UserHandler {
         addedUser,
       },
     });
-
     response.code(201);
     return response;
   }
 }
 
-module.exports = UserHandler;
+module.exports = UsersHandler;

@@ -8,18 +8,18 @@ const bcrypt = require("bcrypt");
 const pool = require("./database/postgres/pool");
 
 // service (repository, helper, manager, etc)
+const UserRepository = require("../Domains/users/UserRepository");
+const PasswordHash = require("../Applications/security/PasswordHash");
 const UserRepositoryPostgres = require("./repository/UserRepositoryPostgres");
 const BcryptPasswordHash = require("./security/BcryptPasswordHash");
-const AuthenticationRepositoryPostgres = require("./repository/AuthenticationRepositoryPostgres");
-const JwtTokenManager = require("./security/JwtTokenmanager");
 
 // use case
 const AddUserUseCase = require("../Applications/use_case/AddUserUseCase");
-const UserRepository = require("../Domains/users/UserRepository");
-const PasswordHash = require("../Applications/security/PasswordHash");
 const AuthenticationTokenManager = require("../Applications/security/AuthenticationTokenManager");
-const AuthenticationRepository = require("../Domains/authentications/AuthenticationsRepository");
+const JwtTokenManager = require("./security/JwtTokenmanager");
 const LoginUserUseCase = require("../Applications/use_case/LoginUserUseCase");
+const AuthenticationRepository = require("../Domains/authentications/AuthenticationsRepository");
+const AuthenticationRepositoryPostgres = require("./repository/AuthenticationRepositoryPostgres");
 
 // creating container
 const container = createContainer();
@@ -57,7 +57,7 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: bcrypt,
+          concrete: pool,
         },
       ],
     },
