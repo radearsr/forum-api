@@ -21,9 +21,10 @@ describe("/authentications endpoint", () => {
         username: "surya",
         password: "iloveyou",
       };
+
       const server = await createServer(container);
 
-      const responseDub = await server.inject({
+      await server.inject({
         method: "POST",
         url: "/users",
         payload: {
@@ -38,11 +39,6 @@ describe("/authentications endpoint", () => {
         url: "/authentications",
         payload: requestPayload,
       });
-
-      const responseJsonDub = JSON.parse(responseDub.payload);
-      expect(responseDub.statusCode).toEqual(201);
-      expect(responseJsonDub.status).toEqual("success");
-      expect(responseJsonDub.data.addedUser).toBeDefined();
 
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(201);
